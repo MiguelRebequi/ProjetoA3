@@ -1,6 +1,9 @@
 package jogo.tela;
 
 import java.awt.Color;
+import javax.swing.JCheckBox;
+import javax.swing.JComboBox;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import jogo.Arqueiro;
@@ -12,6 +15,7 @@ import jogo.Personagem;
 import jogo.tela.metodo.ExibirPersonagens;
 import jogo.tela.metodo.ModificarPlayer;
 import jogo.tela.metodo.RedimensionarVetor;
+import jogo.tela.metodo.VerificarClasse;
 
 public class CriacaoDePersonagem extends javax.swing.JFrame {
 
@@ -31,6 +35,46 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     private Bardo bardo;
     private Guerreiro guerreiro;
     private Mago mago;
+
+    public void atualizarTextoLblEspaco1(String texto) {
+        lbl_espaco1.setText(texto);
+    }
+
+    public void atualizarTextoLblEspaco2(String texto) {
+        lbl_espaco2.setText(texto);
+    }
+
+    public void atualizarTextoLblEspaco3(String texto) {
+        lbl_espaco3.setText(texto);
+    }
+
+    public void atualizarTextoLblEspaco4(String texto) {
+        lbl_espaco4.setText(texto);
+    }
+
+    public void atualizarTextoLblEspaco5(String texto) {
+        lbl_espaco5.setText(texto);
+    }
+
+    public JCheckBox getCb_arqueiro() {
+        return cb_arqueiro;
+    }
+
+    public JCheckBox getCb_assassino() {
+        return cb_assassino;
+    }
+
+    public JCheckBox getCb_bardo() {
+        return cb_bardo;
+    }
+
+    public JCheckBox getCb_guerreiro() {
+        return cb_guerreiro;
+    }
+
+    public JCheckBox getCb_mago() {
+        return cb_mago;
+    }
 
     public String getClasse() {
         return classe;
@@ -95,11 +139,22 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     public void setDano(int dano) {
         this.dano = dano;
     }
+
+    public JComboBox<String> getCob_hp() {
+        return cob_hp;
+    }
+
+    public JLabel getLbl_dano() {
+        return lbl_dano;
+    }
+    
     RedimensionarVetor redimensionador = new RedimensionarVetor();
 
     ExibirPersonagens exibirPersonagens = new ExibirPersonagens();
 
     ModificarPlayer mp = new ModificarPlayer();
+    
+    VerificarClasse vc = new VerificarClasse();
 
     public CriacaoDePersonagem() {
         initComponents();
@@ -424,6 +479,9 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         lbl_imagemAssassino = new javax.swing.JLabel();
         lbl_imagemGuerreiro = new javax.swing.JLabel();
         lbl_imagemMaga = new javax.swing.JLabel();
+        txt_pesquisar = new javax.swing.JTextField();
+        jLabel1 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(102, 102, 102));
@@ -485,11 +543,11 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             }
         });
         getContentPane().add(cb_guerreiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 430, 210, -1));
-        getContentPane().add(lbl_espaco2, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 130, 540, 15));
-        getContentPane().add(lbl_espaco5, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 220, 540, 15));
-        getContentPane().add(lbl_espaco1, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 100, 540, 20));
-        getContentPane().add(lbl_espaco3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 160, 540, 15));
-        getContentPane().add(lbl_espaco4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 190, 540, 15));
+        getContentPane().add(lbl_espaco2, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 440, 470, 50));
+        getContentPane().add(lbl_espaco5, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 530, 470, 90));
+        getContentPane().add(lbl_espaco1, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 410, 470, 40));
+        getContentPane().add(lbl_espaco3, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 470, 470, 90));
+        getContentPane().add(lbl_espaco4, new org.netbeans.lib.awtextra.AbsoluteConstraints(20, 500, 470, 90));
 
         btn_atualizar.setText("Criar");
         btn_atualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -507,7 +565,7 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         });
         getContentPane().add(cob_hp, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 500, -1, 30));
 
-        btn_editar.setText("Editar/Excluir");
+        btn_editar.setText("Excluir");
         btn_editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_editarActionPerformed(evt);
@@ -541,6 +599,19 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
 
         lbl_imagemMaga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Maga.gif"))); // NOI18N
         getContentPane().add(lbl_imagemMaga, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, -1, -1));
+        getContentPane().add(txt_pesquisar, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 300, 200, 40));
+
+        jLabel1.setFont(new java.awt.Font("Monospaced", 2, 12)); // NOI18N
+        jLabel1.setText("Pesquisar personagem criado");
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(150, 260, -1, -1));
+
+        jButton1.setText("Pesquisar");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(210, 350, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -574,6 +645,11 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
 
     private void btn_atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atualizarActionPerformed
         exibir();
+        lbl_espaco1.setVisible(false);
+        lbl_espaco2.setVisible(false);
+        lbl_espaco3.setVisible(false);
+        lbl_espaco4.setVisible(false);
+        lbl_espaco5.setVisible(false);
         txt_nome.setText("");
         if (lbl_titulo.getText().equals("Criação do Player 1") && !lbl_espaco1.getText().isEmpty()) {
             lbl_titulo.setForeground(Color.RED);
@@ -629,21 +705,7 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
 
-        mp.modificarPlayer(personagens,
-                classe1, classe2, classe3, classe4, classe5,
-                player1, player2, player3, player4, player5,
-                vida1, vida2, vida3, vida4, vida5,
-                dano1, dano2, dano3, dano4, dano5, mana);
-        if (mp.isEx1() == false) {
-
-        }
-        if (mp.isEx1() == true) {
-            lbl_espaco1.setText("");
-            player1 = "";
-            classe1 = "";
-            vida1 = 5;
-            dano1 = 30;
-        }
+        mp.modificarPlayerTeste(personagens, this, vc, classe1, classe2, classe3, classe4, classe5, player1, player2, player3, player4, player5, vida1, vida2, vida3, vida4, vida5, dano1, dano2, dano3, dano4, dano5, mana);
     }//GEN-LAST:event_btn_editarActionPerformed
 
     private void cb_arqueiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_arqueiroActionPerformed
@@ -723,6 +785,25 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btn_jogarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        String pesquisa = txt_pesquisar.getText();
+        if (pesquisa.equalsIgnoreCase(player1)) {
+            lbl_espaco1.setVisible(true);
+        }
+        else if (pesquisa.equalsIgnoreCase(player5)) {
+            lbl_espaco2.setVisible(true);
+        }
+        else if (pesquisa.equalsIgnoreCase(player5)) {
+            lbl_espaco3.setVisible(true);
+        }
+        else if (pesquisa.equalsIgnoreCase(player5)) {
+            lbl_espaco4.setVisible(true);
+        }
+        else if (pesquisa.equalsIgnoreCase(player5)) {
+            lbl_espaco5.setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -747,6 +828,8 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     private javax.swing.JCheckBox cb_guerreiro;
     private javax.swing.JCheckBox cb_mago;
     private javax.swing.JComboBox<String> cob_hp;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lbl_dano;
     private javax.swing.JLabel lbl_espaco1;
     private javax.swing.JLabel lbl_espaco2;
@@ -760,5 +843,6 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     private javax.swing.JLabel lbl_imagemMaga;
     private javax.swing.JLabel lbl_titulo;
     private javax.swing.JTextField txt_nome;
+    private javax.swing.JTextField txt_pesquisar;
     // End of variables declaration//GEN-END:variables
 }

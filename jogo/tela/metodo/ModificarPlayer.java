@@ -1,16 +1,15 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package jogo.tela.metodo;
 
 import java.awt.Dialog;
+import javax.naming.spi.NamingManager;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import jogo.Arqueiro;
 import jogo.tela.metodo.RedimensionarVetor;
 import jogo.Personagem;
 import jogo.tela.CriacaoDePersonagem;
+import javax.swing.JLabel;
+import javax.swing.*;
 
 public class ModificarPlayer {
 
@@ -19,18 +18,16 @@ public class ModificarPlayer {
     public boolean ex3 = false;
     public boolean ex4 = false;
     public boolean ex5 = false;
+    public VerificarClasse vc = new VerificarClasse();
 
-    public void modificarPlayer(Personagem[] personagem, String classe1, String classe2, String classe3, String classe4, String classe5,
+    public void modificarPlayerTeste(Personagem[] personagem, CriacaoDePersonagem cp, VerificarClasse vc, String classe1, String classe2, String classe3, String classe4, String classe5,
             String player1, String player2, String player3, String player4, String player5,
             int vida1, int vida2, int vida3, int vida4, int vida5,
             int dano1, int dano2, int dano3, int dano4, int dano5,
             int mana) {
-
-        String[] opcoes = {"Atualizar personagem", "Excluir personagem"};
-
-        UIManager.put("OptionPane.yesButtonText", "Atualizar Personagem");
-        UIManager.put("OptionPane.noButtonText", "Excluir Personagem");
-
+        String vazio = "";
+        String[] opcoes = {"Excluir personagem"};
+        
         int escolha = JOptionPane.showOptionDialog(
                 null,
                 "Escolha uma opção:",
@@ -41,114 +38,87 @@ public class ModificarPlayer {
                 opcoes,
                 opcoes[0]);
 
-        if (escolha == JOptionPane.YES_OPTION) {
-            // Ação para o botão "Yes" (Editar personagem)
-            String[] editarp = {"Editar Player 1", "Editar Player 2", "Editar Player 3", "Editar Player 4", "Editar Player 5"};
-            int editar = JOptionPane.showOptionDialog(
-                    null,
-                    "Escolha um personagem para editar/excluir:",
-                    "Editar ou Excluir",
-                    JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.PLAIN_MESSAGE,
-                    null,
-                    editarp,
-                    editarp[0]);
-            System.out.println("Opção selecionada: Excluir personagem");
-            if (editar == JOptionPane.CLOSED_OPTION) {
-                // Ação para o caso em que o usuário fecha a caixa de diálogo
-                JOptionPane.getRootFrame().dispose();
-            } else {
-                System.out.println("Opção selecionada: Excluir personagem");
-                if (editar == 0) {
-                    // Editar personagem 1
-                    
-                } else if (editar == 1) {
-                    // Editar personagem 2
-                } else if (editar == 2) {
-                    // Editar personagem 3
-                } else if (editar == 3) {
-                    // Editar personagem 4
-                } else if (editar == 4) {
-                    // Editar personagem 5
-                } else {
-                    JOptionPane.showConfirmDialog(null, "Não foi possível a modificação");
-                    return;
-                }
-            }
-        } else if (escolha == JOptionPane.NO_OPTION) {
-            // Ação para o botão "No" (Excluir personagem)
+        
+        if (escolha == 0) {
+            // Ação para o botão "Excluir personagem"
             String[] excluirp = {"Excluir Player 1", "Excluir Player 2", "Excluir Player 3", "Excluir Player 4", "Excluir Player 5"};
-            int excluir = JOptionPane.showOptionDialog(
+
+            String excluir = (String) JOptionPane.showInputDialog(
                     null,
-                    "Escolha um personagem para editar/excluir:",
-                    "Editar ou Excluir",
-                    JOptionPane.DEFAULT_OPTION,
+                    "Escolha um personagem para excluir:",
+                    "Excluir Personagem",
                     JOptionPane.PLAIN_MESSAGE,
                     null,
                     excluirp,
                     excluirp[0]);
 
-            if (excluir == JOptionPane.CLOSED_OPTION) {
-                // O usuário pressionou a opção de fechamento
-                JOptionPane.getRootFrame().dispose();
-                if (excluir == 0) {
-                    // Excluir personagem 1
-                    personagem[0] = null;
-                    ex1 = true;
-                    JOptionPane.showMessageDialog(null, "O personagem 1 foi excluído");
-                } else if (excluir == 1) {
-                    // Excluir personagem 2
-                    personagem[1] = null;
-                    ex2 = true;
-                    JOptionPane.showMessageDialog(null, "O personagem 2 foi excluído");
-                } else if (excluir == 2) {
-                    // Excluir personagem 3
-                    personagem[2] = null;
-                    ex3 = true;
-                    JOptionPane.showMessageDialog(null, "O personagem 3 foi excluído");
-                } else if (excluir == 3) {
-                    // Excluir personagem 4
-                    personagem[3] = null;
-                    ex4 = true;
-                    JOptionPane.showMessageDialog(null, "O personagem 4 foi excluído");
-                } else if (excluir == 4) {
-                    // Excluir personagem 5
-                    personagem[4] = null;
-                    ex5 = true;
-                    JOptionPane.showMessageDialog(null, "O personagem 5 foi excluído");
+            if (excluir != null) {
+                // Verifica se o usuário selecionou uma opção válida
+                switch (excluir) {
+                    case "Excluir Player 1":
+                        // Excluir personagem 1
+                        vc.verificarClasse(classe1, cp);
+                        personagem[0] = null;
+                        cp.atualizarTextoLblEspaco1(vazio);
+                        classe1 = "";
+                        player1 = "";
+                        vida1 = 5;
+                        dano1 = 30;
+                        JOptionPane.showConfirmDialog(null, "Excluir personagem 1");
+                        break;
+                    case "Excluir Player 2":
+                        // Excluir personagem 2
+                        vc.verificarClasse(classe2, cp);
+                        personagem[1] = null;
+                        cp.atualizarTextoLblEspaco2(vazio);
+                        classe2 = "";
+                        player2 = "";
+                        vida2 = 5;
+                        dano2 = 30;
+                        JOptionPane.showConfirmDialog(null, "Excluir personagem 2");
+                        break;
+                    case "Excluir Player 3":
+                        // Excluir personagem 3
+                        vc.verificarClasse(classe3, cp);
+                        personagem[2] = null;
+                        cp.atualizarTextoLblEspaco2(vazio);
+                        classe3 = "";
+                        player3 = "";
+                        vida3 = 5;
+                        dano3 = 30;
+                        JOptionPane.showConfirmDialog(null, "Excluir personagem 3");
+                        break;
+                    case "Excluir Player 4":
+                        // Excluir personagem 4
+                        vc.verificarClasse(classe3, cp);
+                        personagem[3] = null;
+                        cp.atualizarTextoLblEspaco2(vazio);
+                        classe4 = "";
+                        player4 = "";
+                        vida4 = 5;
+                        dano4 = 30;
+                        JOptionPane.showConfirmDialog(null, "Excluir personagem 4");
+                        break;
+                    case "Excluir Player 5":
+                        // Excluir personagem 5
+                        vc.verificarClasse(classe5, cp);
+                        personagem[4] = null;
+                        cp.atualizarTextoLblEspaco2(vazio);
+                        classe5 = "";
+                        player5 = "";
+                        vida5 = 5;
+                        dano5 = 30;
+                        JOptionPane.showConfirmDialog(null, "Excluir personagem 4");
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(null, "Opção inválida");
+                        break;
                 }
-                if (excluir == JOptionPane.CLOSED_OPTION) {
-                    // O usuário pressionou a opção de fechamento
-                    JOptionPane.getRootFrame().dispose();
-
-                }
-
-            } else if (escolha == JOptionPane.CLOSED_OPTION) {
-                // Ação para o caso em que o usuário fecha a caixa de diálogo
-                JOptionPane.getRootFrame().dispose();
             }
-
+        } else if (escolha == JOptionPane.CLOSED_OPTION) {
+            // Ação para o caso em que o usuário fecha a caixa de diálogo
+            JOptionPane.getRootFrame().dispose();
         }
-    }
-
-    public boolean isEx1() {
-        return ex1;
-    }
-
-    public boolean isEx2() {
-        return ex2;
-    }
-
-    public boolean isEx3() {
-        return ex3;
-    }
-
-    public boolean isEx4() {
-        return ex4;
-    }
-
-    public boolean isEx5() {
-        return ex5;
     }
 
 }
