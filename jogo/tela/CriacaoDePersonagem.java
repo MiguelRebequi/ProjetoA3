@@ -1,9 +1,6 @@
 package jogo.tela;
 
 import java.awt.Color;
-import java.awt.Image;
-import javax.swing.Icon;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import jogo.Arqueiro;
@@ -11,6 +8,10 @@ import jogo.Assassino;
 import jogo.Bardo;
 import jogo.Guerreiro;
 import jogo.Mago;
+import jogo.Personagem;
+import jogo.tela.metodo.ExibirPersonagens;
+import jogo.tela.metodo.ModificarPlayer;
+import jogo.tela.metodo.RedimensionarVetor;
 
 public class CriacaoDePersonagem extends javax.swing.JFrame {
 
@@ -19,17 +20,66 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     private int mana;
     private int dano;
     private String classe = "Sem classe";
-    private String classe1, classe2, classe3, classe4, classe5;
-    private String player1, player2, player3, player4, player5;
-    private int vida1, vida2, vida3, vida4, vida5;
-    private int dano1, dano2, dano3, dano4, dano5;
+    protected String classe1, classe2, classe3, classe4, classe5;
+    protected String player1, player2, player3, player4, player5;
+    protected int vida1, vida2, vida3, vida4, vida5;
+    protected int dano1, dano2, dano3, dano4, dano5;
+    public Personagem[] personagens = new Personagem[1];
 
     private Arqueiro arqueiro;
     private Assassino assassino;
     private Bardo bardo;
     private Guerreiro guerreiro;
     private Mago mago;
-    
+
+    public String getClasse() {
+        return classe;
+    }
+
+    public void setClasse(String classe) {
+        this.classe = classe;
+    }
+
+    public String getClasse1() {
+        return classe1;
+    }
+
+    public void setClasse1(String classe1) {
+        this.classe1 = classe1;
+    }
+
+    public String getClasse2() {
+        return classe2;
+    }
+
+    public void setClasse2(String classe2) {
+        this.classe2 = classe2;
+    }
+
+    public String getClasse3() {
+        return classe3;
+    }
+
+    public void setClasse3(String classe3) {
+        this.classe3 = classe3;
+    }
+
+    public String getClasse4() {
+        return classe4;
+    }
+
+    public void setClasse4(String classe4) {
+        this.classe4 = classe4;
+    }
+
+    public String getClasse5() {
+        return classe5;
+    }
+
+    public void setClasse5(String classe5) {
+        this.classe5 = classe5;
+    }
+
     public void setNome(String nome) {
         this.nome = nome;
     }
@@ -45,38 +95,33 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     public void setDano(int dano) {
         this.dano = dano;
     }
+    RedimensionarVetor redimensionador = new RedimensionarVetor();
+
+    ExibirPersonagens exibirPersonagens = new ExibirPersonagens();
+
+    ModificarPlayer mp = new ModificarPlayer();
 
     public CriacaoDePersonagem() {
         initComponents();
         corCriacao();
-        // CRIAÇÃO DO PLAYER 1
-//        if (lbl_espaco1.getText() != null && lbl_espaco2.getText().isEmpty() && lbl_espaco3.getText().isEmpty() && lbl_espaco4.getText().isEmpty() && lbl_espaco5.getText().isEmpty()) {
-//            jLabel1.setForeground(Color.BLUE);
-//        } // CRIAÇÃO DO PLAYER 2
-//        else if (!lbl_espaco1.getText().isEmpty() && lbl_espaco2.getText().isEmpty() && lbl_espaco3.getText().isEmpty() && lbl_espaco4.getText().isEmpty() && lbl_espaco5.getText().isEmpty()) {
-//            jLabel1.setForeground(Color.RED);
-//            jLabel1.setText("Criação do Player 2");
-//        }
-//        // CRIAÇÃO DO PLAYER 3
-//        if (lbl_espaco1.getText() != null && lbl_espaco2.getText() != null && lbl_espaco4 == null && lbl_espaco5 == null) {
-//            jLabel1.setForeground(Color.GREEN);
-//            jLabel1.setText("Criação do Player 3");
-//        }
-//        // CRIAÇÃO DO PLAYER 4
-//        if (lbl_espaco1.getText() != null && lbl_espaco2.getText() != null && lbl_espaco3.getText() != null && lbl_espaco5 == null) {
-//            jLabel1.setForeground(Color.YELLOW);
-//            jLabel1.setText("Criação do Player 4");
-//        }
-//        // CRIAÇÃO DO PLAYER 5
-//        if (lbl_espaco1.getText() != null && lbl_espaco2.getText() != null && lbl_espaco3.getText() != null && lbl_espaco4 != null && lbl_espaco5 == null) {
-//            jLabel1.setForeground(Color.MAGENTA);
-//            jLabel1.setText("Criação do Player 5");
-//        }
+        lbl_imagemArqueiro.setVisible(false);
+        lbl_imagemAssassino.setVisible(false);
+        lbl_imagemBardo.setVisible(false);
+        lbl_imagemGuerreiro.setVisible(false);
+        lbl_imagemMaga.setVisible(false);
+        int indicePreselecionado = 0; // Índice da opção que deseja preselecionar
+        cob_hp.setSelectedIndex(indicePreselecionado);
+
+// Chamada do método de redimensionamento do vetor
+        RedimensionarVetor redimensionador = new RedimensionarVetor();
+
+        ExibirPersonagens exibirPersonagens = new ExibirPersonagens();
+
     }
 
     public void exibir() {
         this.mana = 50;
-        alocarHPeDANO();
+        alocarHP();
         verificarclasse();
         //PRIMEIRA LINHA
         if (cb_arqueiro.isSelected() || cb_assassino.isSelected() || cb_bardo.isSelected() || cb_guerreiro.isSelected() || cb_mago.isSelected()) {
@@ -85,7 +130,9 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
                 classe1 = classe;
                 vida1 = vida;
                 dano1 = dano;
+
                 player1 = player1.substring(0, 1).toUpperCase() + player1.substring(1);
+
                 String textoFormatado = "Nome do player 1: <font color='blue'>" + player1 + "</font>  Classe: " + classe1 + "  Vida: " + vida1 + "  Mana: " + mana + "  Modificador de dano: " + dano1;
                 lbl_espaco1.setText("<html>" + textoFormatado + "</html>");
             } else if (lbl_espaco2.getText().isEmpty() && !classe1.equals(classe)) {
@@ -93,7 +140,9 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
                 classe2 = classe;
                 vida2 = vida;
                 dano2 = dano;
+
                 player2 = player2.substring(0, 1).toUpperCase() + player2.substring(1);
+
                 String textoFormatado = "Nome do player 2: <font color='red'>" + player2 + "</font>  Classe: " + classe2 + "  Vida: " + vida2 + "  Mana: " + mana + "  Modificador de dano: " + dano2;
                 lbl_espaco2.setText("<html>" + textoFormatado + "</html>");
             } else if (!lbl_espaco2.getText().isEmpty() && lbl_espaco3.getText().isEmpty() && classe2 != null && !classe2.equals(classe)) {
@@ -101,7 +150,9 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
                 classe3 = classe;
                 vida3 = vida;
                 dano3 = dano;
+
                 player3 = player3.substring(0, 1).toUpperCase() + player3.substring(1);
+
                 String textoFormatado = "Nome do player 3: <font color='green'>" + player3 + "</font>  Classe: " + classe3 + "  Vida: " + vida3 + "  Mana: " + mana + "  Modificador de dano: " + dano3;
                 lbl_espaco3.setText("<html>" + textoFormatado + "</html>");
             } else {
@@ -134,7 +185,9 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
                     classe4 = classe;
                     vida4 = vida;
                     dano4 = dano;
+
                     player4 = player4.substring(0, 1).toUpperCase() + player4.substring(1);
+
                     String textoFormatado = "Nome do player 4: <font color='yellow'>" + player4 + "</font>  Classe: " + classe4 + "  Vida: " + vida4 + "  Mana: " + mana + "  Modificador de dano: " + dano4;
                     lbl_espaco4.setText("<html>" + textoFormatado + "</html>");
                 } else {
@@ -168,7 +221,10 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
                         player5 = txt_nome.getText();
                         classe5 = classe;
                         vida5 = vida;
+                        dano5 = dano;
+
                         player5 = player5.substring(0, 1).toUpperCase() + player5.substring(1);
+
                         String textoFormatado = "Nome do player 5: <font color='purple'>" + player5 + "</font>  Classe: " + classe5 + "  Vida: " + vida5 + "  Mana: " + mana + "  Modificador de dano: " + dano5;
                         lbl_espaco5.setText("<html>" + textoFormatado + "</html>");
                     }
@@ -178,7 +234,7 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         desabilitarClasse();
     }
 
-    public void alocarHPeDANO() {
+    public void alocarHP() {
         vida = 0;
         if (cob_hp.getSelectedIndex() == 0) {
             vida = 5;
@@ -202,7 +258,7 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             vida = 35;
         }
         if (cob_hp.getSelectedIndex() == 7) {
-            vida = 40;
+            vida = 50;
         }
     }
 
@@ -283,6 +339,58 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
 
     }
 
+    public void habilitarClasse() {
+        // Habilitar a classe do Arqueiro quando já for selecionada
+        if ("Arqueiro".equals(classe1)
+                || "Arqueiro".equals(classe2)
+                || "Arqueiro".equals(classe3)
+                || "Arqueiro".equals(classe4)
+                || "Arqueiro".equals(classe5)) {
+            cb_arqueiro.setVisible(true);
+            cb_arqueiro.setEnabled(true);
+        }
+
+// Habilitar a classe do Assassino quando já for selecionada
+        if ("Assassino".equals(classe1)
+                || "Assassino".equals(classe2)
+                || "Assassino".equals(classe3)
+                || "Assassino".equals(classe4)
+                || "Assassino".equals(classe5)) {
+            cb_assassino.setVisible(true);
+            cb_assassino.setEnabled(true);
+        }
+
+// Habilitar a classe do Bardo quando já for selecionada
+        if ("Bardo".equals(classe1)
+                || "Bardo".equals(classe2)
+                || "Bardo".equals(classe3)
+                || "Bardo".equals(classe4)
+                || "Bardo".equals(classe5)) {
+            cb_bardo.setVisible(true);
+            cb_bardo.setEnabled(true);
+        }
+
+// Habilitar a classe do Guerreiro quando já for selecionada
+        if ("Guerreiro".equals(classe1)
+                || "Guerreiro".equals(classe2)
+                || "Guerreiro".equals(classe3)
+                || "Guerreiro".equals(classe4)
+                || "Guerreiro".equals(classe5)) {
+            cb_guerreiro.setVisible(true);
+            cb_guerreiro.setEnabled(true);
+        }
+
+// Habilitar a classe do Mago quando já for selecionada
+        if ("Mago".equals(classe1)
+                || "Mago".equals(classe2)
+                || "Mago".equals(classe3)
+                || "Mago".equals(classe4)
+                || "Mago".equals(classe5)) {
+            cb_mago.setVisible(true);
+            cb_mago.setEnabled(true);
+        }
+    }
+
     public void corCriacao() {
         if (lbl_titulo.getText().equals("Criação do Player 1") && lbl_espaco1.getText().isEmpty()) {
             lbl_titulo.setForeground(Color.BLUE);
@@ -290,108 +398,11 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         // CRIAÇÃO DO PLAYER 2
     }
 
-    public void instanciadorDePersonagem() {
-        if (cb_arqueiro.isSelected() && txt_nome.getText().isEmpty()) {
-            if (classe1.equalsIgnoreCase("Arqueiro")) {
-                arqueiro = new Arqueiro(player1, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Arqueiro" + player1 + "," + vida + "," + mana + "," + dano);
-            } else if (classe2.equalsIgnoreCase("Arqueiro")) {
-                arqueiro = new Arqueiro(player2, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Arqueiro" + player2 + "," + vida + "," + mana + "," + dano);
-            } else if (classe3.equalsIgnoreCase("Arqueiro")) {
-                arqueiro = new Arqueiro(player3, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Arqueiro" + player3 + "," + vida + "," + mana + "," + dano);
-            } else if (classe4.equalsIgnoreCase("Arqueiro")) {
-                arqueiro = new Arqueiro(player4, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Arqueiro" + player4 + "," + vida + "," + mana + "," + dano);
-            } else if (classe5.equalsIgnoreCase("Arqueiro")) {
-                arqueiro = new Arqueiro(player5, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Arqueiro" + player5 + "," + vida + "," + mana + "," + dano);
-            }
-        }
-
-        if (cb_assassino.isSelected() && txt_nome.getText().isEmpty()) {
-            if (classe1.equalsIgnoreCase("Assassino")) {
-                assassino = new Assassino(player1, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Assassino" + player1 + "," + vida + "," + mana + "," + dano);
-            } else if (classe2.equalsIgnoreCase("Assassino")) {
-                assassino = new Assassino(player2, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Assassino" + player2 + "," + vida + "," + mana + "," + dano);
-            } else if (classe3.equalsIgnoreCase("Assassino")) {
-                assassino = new Assassino(player3, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Assassino" + player3 + "," + vida + "," + mana + "," + dano);
-            } else if (classe4.equalsIgnoreCase("Assassino")) {
-                assassino = new Assassino(player4, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Assassino" + player4 + "," + vida + "," + mana + "," + dano);
-            } else if (classe5.equalsIgnoreCase("Assassino")) {
-                assassino = new Assassino(player5, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Assassino" + player5 + "," + vida + "," + mana + "," + dano);
-            }
-        }
-
-        if (cb_bardo.isSelected() && txt_nome.getText().isEmpty()) {
-            if (classe1.equalsIgnoreCase("Bardo")) {
-                bardo = new Bardo(player1, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Bardo" + player1 + "," + vida + "," + mana + "," + dano);
-            } else if (classe2.equalsIgnoreCase("Bardo")) {
-                bardo = new Bardo(player2, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Bardo" + player2 + "," + vida + "," + mana + "," + dano);
-            } else if (classe3.equalsIgnoreCase("Bardo")) {
-                bardo = new Bardo(player3, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Bardo" + player3 + "," + vida + "," + mana + "," + dano);
-            } else if (classe4.equalsIgnoreCase("Bardo")) {
-                bardo = new Bardo(player4, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Bardo" + player4 + "," + vida + "," + mana + "," + dano);
-            } else if (classe5.equalsIgnoreCase("Bardo")) {
-                bardo = new Bardo(player5, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Bardo" + player5 + "," + vida + "," + mana + "," + dano);
-            }
-        }
-
-        if (cb_guerreiro.isSelected() && txt_nome.getText().isEmpty()) {
-            if (classe1.equalsIgnoreCase("Guerreiro")) {
-                guerreiro = new Guerreiro(player1, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Guerreiro" + player1 + "," + vida + "," + mana + "," + dano);
-            } else if (classe2.equalsIgnoreCase("Guerreiro")) {
-                guerreiro = new Guerreiro(player2, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Guerreiro" + player2 + "," + vida + "," + mana + "," + dano);
-            } else if (classe3.equalsIgnoreCase("Guerreiro")) {
-                guerreiro = new Guerreiro(player3, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Guerreiro" + player3 + "," + vida + "," + mana + "," + dano);
-            } else if (classe4.equalsIgnoreCase("Guerreiro")) {
-                guerreiro = new Guerreiro(player4, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Guerreiro" + player4 + "," + vida + "," + mana + "," + dano);
-            } else if (classe5.equalsIgnoreCase("Guerreiro")) {
-                guerreiro = new Guerreiro(player5, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Guerreiro" + player5 + "," + vida + "," + mana + "," + dano);
-            }
-        }
-
-        if (cb_mago.isSelected() && txt_nome.getText().isEmpty()) {
-            if (classe1.equalsIgnoreCase("Mago")) {
-                mago = new Mago(player1, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Mago" + player1 + "," + vida + "," + mana + "," + dano);
-            } else if (classe2.equalsIgnoreCase("Mago")) {
-                mago = new Mago(player2, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Mago" + player2 + "," + vida + "," + mana + "," + dano);
-            } else if (classe3.equalsIgnoreCase("Mago")) {
-                mago = new Mago(player3, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Mago" + player3 + "," + vida + "," + mana + "," + dano);
-            } else if (classe4.equalsIgnoreCase("Mago")) {
-                mago = new Mago(player4, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Mago" + player4 + "," + vida + "," + mana + "," + dano);
-            } else if (classe5.equalsIgnoreCase("Mago")) {
-                mago = new Mago(player5, vida, mana, dano);
-                JOptionPane.showMessageDialog(null, "Teste:" + "new Mago" + player5 + "," + vida + "," + mana + "," + dano);
-            }
-        }
-    }
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        lbl_imagem = new javax.swing.JLabel();
+        lbl_imagemBardo = new javax.swing.JLabel();
         txt_nome = new javax.swing.JTextField();
         cb_mago = new javax.swing.JCheckBox();
         cb_assassino = new javax.swing.JCheckBox();
@@ -406,22 +417,27 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         btn_atualizar = new javax.swing.JButton();
         cob_hp = new javax.swing.JComboBox<>();
         btn_editar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btn_jogar = new javax.swing.JButton();
         lbl_titulo = new javax.swing.JLabel();
         lbl_dano = new javax.swing.JLabel();
+        lbl_imagemArqueiro = new javax.swing.JLabel();
+        lbl_imagemAssassino = new javax.swing.JLabel();
+        lbl_imagemGuerreiro = new javax.swing.JLabel();
+        lbl_imagemMaga = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 102, 102));
         setMinimumSize(new java.awt.Dimension(1920, 1080));
         getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lbl_imagem.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Gabriel Belmont.gif"))); // NOI18N
-        lbl_imagem.setLabelFor(lbl_imagem);
-        lbl_imagem.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
-        lbl_imagem.setMaximumSize(new java.awt.Dimension(100, 100));
-        lbl_imagem.setMinimumSize(new java.awt.Dimension(100, 100));
-        lbl_imagem.setOpaque(true);
-        lbl_imagem.setPreferredSize(new java.awt.Dimension(120, 120));
-        getContentPane().add(lbl_imagem, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 380, 220, 330));
+        lbl_imagemBardo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Bardo.gif"))); // NOI18N
+        lbl_imagemBardo.setLabelFor(lbl_imagemBardo);
+        lbl_imagemBardo.setVerticalAlignment(javax.swing.SwingConstants.BOTTOM);
+        lbl_imagemBardo.setMaximumSize(new java.awt.Dimension(100, 100));
+        lbl_imagemBardo.setMinimumSize(new java.awt.Dimension(100, 100));
+        lbl_imagemBardo.setOpaque(true);
+        lbl_imagemBardo.setPreferredSize(new java.awt.Dimension(120, 120));
+        getContentPane().add(lbl_imagemBardo, new org.netbeans.lib.awtextra.AbsoluteConstraints(600, 400, 220, 240));
 
         txt_nome.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -475,7 +491,7 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         getContentPane().add(lbl_espaco3, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 160, 540, 15));
         getContentPane().add(lbl_espaco4, new org.netbeans.lib.awtextra.AbsoluteConstraints(660, 190, 540, 15));
 
-        btn_atualizar.setText("Atualizar");
+        btn_atualizar.setText("Criar");
         btn_atualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_atualizarActionPerformed(evt);
@@ -483,7 +499,7 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         });
         getContentPane().add(btn_atualizar, new org.netbeans.lib.awtextra.AbsoluteConstraints(750, 730, 140, 70));
 
-        cob_hp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5 HP", "10 HP", "15 HP", "20 HP", "25 HP", "30 HP", "35 HP", "40 HP" }));
+        cob_hp.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "5 HP", "10 HP", "15 HP", "20 HP", "25 HP", "30 HP", "35 HP", "50 HP" }));
         cob_hp.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 cob_hpActionPerformed(evt);
@@ -491,7 +507,7 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         });
         getContentPane().add(cob_hp, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 500, -1, 30));
 
-        btn_editar.setText("Editar");
+        btn_editar.setText("Editar/Excluir");
         btn_editar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_editarActionPerformed(evt);
@@ -499,8 +515,13 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
         });
         getContentPane().add(btn_editar, new org.netbeans.lib.awtextra.AbsoluteConstraints(920, 730, 140, 70));
 
-        jButton1.setText("Jogar");
-        getContentPane().add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 730, 130, 70));
+        btn_jogar.setText("Jogar");
+        btn_jogar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_jogarActionPerformed(evt);
+            }
+        });
+        getContentPane().add(btn_jogar, new org.netbeans.lib.awtextra.AbsoluteConstraints(590, 730, 130, 70));
 
         lbl_titulo.setFont(new java.awt.Font("Monospaced", 2, 12)); // NOI18N
         lbl_titulo.setText("Criação do Player 1");
@@ -508,6 +529,18 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
 
         lbl_dano.setVerticalAlignment(javax.swing.SwingConstants.TOP);
         getContentPane().add(lbl_dano, new org.netbeans.lib.awtextra.AbsoluteConstraints(940, 540, 260, 80));
+
+        lbl_imagemArqueiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Arqueiro.png"))); // NOI18N
+        getContentPane().add(lbl_imagemArqueiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(650, 500, 130, -1));
+
+        lbl_imagemAssassino.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Assassino.gif"))); // NOI18N
+        getContentPane().add(lbl_imagemAssassino, new org.netbeans.lib.awtextra.AbsoluteConstraints(500, 350, -1, -1));
+
+        lbl_imagemGuerreiro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Guerreiro.gif"))); // NOI18N
+        getContentPane().add(lbl_imagemGuerreiro, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 360, -1, -1));
+
+        lbl_imagemMaga.setIcon(new javax.swing.ImageIcon(getClass().getResource("/imagens/Maga.gif"))); // NOI18N
+        getContentPane().add(lbl_imagemMaga, new org.netbeans.lib.awtextra.AbsoluteConstraints(640, 420, -1, -1));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -529,7 +562,14 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             cb_bardo.setSelected(false);
             cb_guerreiro.setSelected(false);
 
+            lbl_imagemArqueiro.setVisible(false);
+            lbl_imagemAssassino.setVisible(false);
+            lbl_imagemBardo.setVisible(false);
+            lbl_imagemGuerreiro.setVisible(false);
+            lbl_imagemMaga.setVisible(true);
+
         }
+
     }//GEN-LAST:event_cb_magoActionPerformed
 
     private void btn_atualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_atualizarActionPerformed
@@ -552,17 +592,28 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             lbl_titulo.setText("Criação do Player 5");
         }
         if (!lbl_espaco1.getText().isEmpty() && !lbl_espaco2.getText().isEmpty() && !lbl_espaco3.getText().isEmpty() && !lbl_espaco4.getText().isEmpty() && !lbl_espaco5.getText().isEmpty()) {
-            lbl_imagem.setVisible(false);
+            lbl_imagemBardo.setVisible(false);
             lbl_titulo.setVisible(false);
             cob_hp.setVisible(false);
             lbl_dano.setVisible(false);
 
         }
-        instanciadorDePersonagem();
+        personagens = redimensionador.redimensionarVetor(personagens,
+                classe1, classe2, classe3, classe4, classe5,
+                player1, player2, player3, player4, player5,
+                vida1, vida2, vida3, vida4, vida5, dano1, dano2, dano3, dano4, dano5,
+                mana);
+
+
     }//GEN-LAST:event_btn_atualizarActionPerformed
 
     private void cob_hpActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cob_hpActionPerformed
-        if (cob_hp.getSelectedIndex() >= 0 || cob_hp.getSelectedIndex() <= 4) {
+
+        if (cob_hp.getSelectedIndex() == 0) {
+            dano = 30;
+            lbl_dano.setText("<html>Seu dano: " + dano + "<br>Obs: quanto maior a sua vida menor o seu dano</html>");
+        }
+        if (cob_hp.getSelectedIndex() >= 1 || cob_hp.getSelectedIndex() <= 4 && cob_hp.getSelectedIndex() != 0) {
             dano = 20;
             lbl_dano.setText("<html>Seu dano: " + dano + "<br>Obs: quanto maior a sua vida menor o seu dano</html>");
         }
@@ -577,27 +628,22 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     }//GEN-LAST:event_cob_hpActionPerformed
 
     private void btn_editarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_editarActionPerformed
-        String[] opcoes = {"Editar Player 1", "Editar Player 2", "Editar Player 3", "Editar Player 4", "Editar Player 5"};
 
-        UIManager.put("OptionPane.okButtonText", "Confirmar edição");
-        UIManager.put("OptionPane.cancelButtonText", "Cancelar edição");
+        mp.modificarPlayer(personagens,
+                classe1, classe2, classe3, classe4, classe5,
+                player1, player2, player3, player4, player5,
+                vida1, vida2, vida3, vida4, vida5,
+                dano1, dano2, dano3, dano4, dano5, mana);
+        if (mp.isEx1() == false) {
 
-        String edicaoPersonagem = (String) JOptionPane.showInputDialog(null,
-                "Selecione uma dessas opções",
-                "Editar os status dos players",
-                JOptionPane.DEFAULT_OPTION,
-                null,
-                opcoes,
-                DISPOSE_ON_CLOSE);
-
-        if (edicaoPersonagem.equals("Editar Player 1")) {
-            UIManager.put("OptionPane.okButtonText", "Confirmar edição do Player 1");
-            JOptionPane.showConfirmDialog(null,
-                    "Deu certo", "Player 1", JOptionPane.DEFAULT_OPTION,
-                    JOptionPane.DEFAULT_OPTION,
-                    null);
         }
-
+        if (mp.isEx1() == true) {
+            lbl_espaco1.setText("");
+            player1 = "";
+            classe1 = "";
+            vida1 = 5;
+            dano1 = 30;
+        }
     }//GEN-LAST:event_btn_editarActionPerformed
 
     private void cb_arqueiroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_arqueiroActionPerformed
@@ -606,8 +652,17 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             cb_bardo.setSelected(false);
             cb_guerreiro.setSelected(false);
             cb_mago.setSelected(false);
-            arqueiro = new Arqueiro(txt_nome.getText(), 1, 1, 1);
+
+            lbl_imagemArqueiro.setVisible(true);
+            lbl_imagemAssassino.setVisible(false);
+            lbl_imagemBardo.setVisible(false);
+            lbl_imagemGuerreiro.setVisible(false);
+            lbl_imagemMaga.setVisible(false);
         }
+        if (!"Arqueiro".equals(classe1) && !"Arqueiro".equals(classe2) && !"Arqueiro".equals(classe3) && !"Arqueiro".equals(classe4) && !"Arqueiro".equals(classe5)) {
+            cb_arqueiro.setSelected(true);
+        }
+
     }//GEN-LAST:event_cb_arqueiroActionPerformed
 
     private void cb_assassinoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_assassinoActionPerformed
@@ -616,8 +671,14 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             cb_bardo.setSelected(false);
             cb_guerreiro.setSelected(false);
             cb_mago.setSelected(false);
-            assassino = new Assassino(txt_nome.getText(), 1, 1, 1);
+
+            lbl_imagemArqueiro.setVisible(false);
+            lbl_imagemAssassino.setVisible(true);
+            lbl_imagemBardo.setVisible(false);
+            lbl_imagemGuerreiro.setVisible(false);
+            lbl_imagemMaga.setVisible(false);
         }
+
     }//GEN-LAST:event_cb_assassinoActionPerformed
 
     private void cb_bardoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cb_bardoActionPerformed
@@ -626,7 +687,12 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             cb_assassino.setSelected(false);
             cb_guerreiro.setSelected(false);
             cb_mago.setSelected(false);
-            arqueiro = new Arqueiro(txt_nome.getText(), 1, 1, 1);
+
+            lbl_imagemArqueiro.setVisible(false);
+            lbl_imagemAssassino.setVisible(false);
+            lbl_imagemBardo.setVisible(true);
+            lbl_imagemGuerreiro.setVisible(false);
+            lbl_imagemMaga.setVisible(false);
         }
     }//GEN-LAST:event_cb_bardoActionPerformed
 
@@ -636,9 +702,26 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
             cb_assassino.setSelected(false);
             cb_bardo.setSelected(false);
             cb_mago.setSelected(false);
-            arqueiro = new Arqueiro(txt_nome.getText(), 1, 1, 1);
+
+            lbl_imagemArqueiro.setVisible(false);
+            lbl_imagemAssassino.setVisible(false);
+            lbl_imagemBardo.setVisible(false);
+            lbl_imagemGuerreiro.setVisible(true);
+            lbl_imagemMaga.setVisible(false);
         }
     }//GEN-LAST:event_cb_guerreiroActionPerformed
+
+    private void btn_jogarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_jogarActionPerformed
+        if (!lbl_espaco1.getText().isBlank() || !lbl_espaco1.getText().isEmpty()) {
+            exibirPersonagens.exibirInformacoesGUI(personagens);
+            setVisible(false);
+            InterfaceGrafica interfaceGrafica = new InterfaceGrafica();
+            interfaceGrafica.setVisible(true);
+        } else {
+            JOptionPane.showMessageDialog(null, "Crie pelo menos um jogador", "Erro ao iniciar", JOptionPane.DEFAULT_OPTION);
+        }
+
+    }//GEN-LAST:event_btn_jogarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -657,20 +740,24 @@ public class CriacaoDePersonagem extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_atualizar;
     private javax.swing.JButton btn_editar;
+    private javax.swing.JButton btn_jogar;
     private javax.swing.JCheckBox cb_arqueiro;
     private javax.swing.JCheckBox cb_assassino;
     private javax.swing.JCheckBox cb_bardo;
     private javax.swing.JCheckBox cb_guerreiro;
     private javax.swing.JCheckBox cb_mago;
     private javax.swing.JComboBox<String> cob_hp;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel lbl_dano;
     private javax.swing.JLabel lbl_espaco1;
     private javax.swing.JLabel lbl_espaco2;
     private javax.swing.JLabel lbl_espaco3;
     private javax.swing.JLabel lbl_espaco4;
     private javax.swing.JLabel lbl_espaco5;
-    private javax.swing.JLabel lbl_imagem;
+    private javax.swing.JLabel lbl_imagemArqueiro;
+    private javax.swing.JLabel lbl_imagemAssassino;
+    private javax.swing.JLabel lbl_imagemBardo;
+    private javax.swing.JLabel lbl_imagemGuerreiro;
+    private javax.swing.JLabel lbl_imagemMaga;
     private javax.swing.JLabel lbl_titulo;
     private javax.swing.JTextField txt_nome;
     // End of variables declaration//GEN-END:variables
